@@ -162,10 +162,13 @@ def main(
 
     # Load scheduler, tokenizer and models.
     noise_scheduler = DDIMScheduler(**OmegaConf.to_container(noise_scheduler_kwargs))
-
-    vae          = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
-    tokenizer    = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
-    text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
+    # Hugging Face token'ınızı girin
+    token = "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"
+    
+    # Modeli token ile yükleme
+    vae = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae", use_auth_token=token)
+    tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer", use_auth_token=token)
+    text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder", use_auth_token=token)
     if not image_finetune:
         unet = UNet3DConditionModel.from_pretrained_2d(
             pretrained_model_path, subfolder="unet", 
